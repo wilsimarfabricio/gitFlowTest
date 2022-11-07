@@ -24,6 +24,7 @@ jobs:
       uses: laputansoft/github-tag-action@v4.6
       with:
         tag: ${{ steps.package-version.outputs.version }}
+    - run: echo $tag
 
     steps:
     - uses: actions/checkout@v3
@@ -33,5 +34,4 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: echo $tag
     - run: npm test

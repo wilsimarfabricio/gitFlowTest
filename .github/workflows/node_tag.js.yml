@@ -26,3 +26,4 @@ jobs:
           tag: ${{ steps.package-version.outputs.version }}
       - run: echo $tag
       - run: echo $GITHUB_REF_NAME
+      - run: echo $GITHUB_REF_TYPE

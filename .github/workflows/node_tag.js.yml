@@ -16,14 +16,17 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [14.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    env:
+      tag2: ${{Build.BuildId}}
+    
     steps:
-      - uses: actions/checkout@master
-      - name: Bump version and push tag
-        uses: laputansoft/github-tag-action@v4.6
+      - name: Test version and push tag
+      - uses: actions/checkout@v3
         with:
-          tag: ${{ steps.package-version.outputs.version }}
+          ref: develop
       - run: echo $tag
       - run: echo $GITHUB_REF_NAME
       - run: echo $GITHUB_REF_TYPE
+      - run: echo $tag2

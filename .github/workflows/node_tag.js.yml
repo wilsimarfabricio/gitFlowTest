@@ -5,7 +5,8 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "develop"]
+    tags: '*'
   pull_request:
     branches: [ "main" ]
 
@@ -16,16 +17,16 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [14.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+    env:
+      tag: '$(Build.BuildId)'
+    
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        tag: ${{ steps.package-version.outputs.version }}
-    - run: echo $tag
-    - run: npm test
+      - name: Test version and push tag
+        uses: actions/checkout@v3
+        with:
+          ref: develop
+      - run: echo $tag
+      - run: echo $GITHUB_REF_NAME
+      - run: echo $GITHUB_REF_TYPE
